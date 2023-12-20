@@ -1,5 +1,6 @@
 package com.br.project.models.acesso;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;

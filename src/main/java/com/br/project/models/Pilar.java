@@ -2,11 +2,17 @@ package com.br.project.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.br.project.models.enums.SubPilar;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,13 +30,15 @@ public class Pilar {
 
 	private String descricao;
 
-	private SubPilar subPilar;
+	@ElementCollection(targetClass = SubPilar.class)
+	@Enumerated(EnumType.STRING)
+	private List<SubPilar> subPilar = new ArrayList<>();
 
 	private LocalDateTime dataCadastro = LocalDateTime.now();
 
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name = "idProjeto")
+	@JoinColumn(name = "idProjeto", foreignKey = @ForeignKey(name = "FK_FROM_PROJETO_x_PILAR"))
 	private Projeto projeto;
 
 	private BigDecimal valor;
@@ -45,8 +53,8 @@ public class Pilar {
 
 	}
 
-	public Pilar(String descricao, SubPilar subPilar,  Projeto projeto, BigDecimal valor,
-			Integer horas, TipoPilar tipo) {
+	public Pilar(String descricao, List<SubPilar> subPilar, Projeto projeto, BigDecimal valor, Integer horas,
+			TipoPilar tipo) {
 
 		this.descricao = descricao;
 		this.subPilar = subPilar;
@@ -72,11 +80,11 @@ public class Pilar {
 		this.descricao = descricao;
 	}
 
-	public SubPilar getSubPilar() {
+	public List<SubPilar> getSubPilar() {
 		return subPilar;
 	}
 
-	public void setSubPilar(SubPilar subPilar) {
+	public void setSubPilar(List<SubPilar> subPilar) {
 		this.subPilar = subPilar;
 	}
 

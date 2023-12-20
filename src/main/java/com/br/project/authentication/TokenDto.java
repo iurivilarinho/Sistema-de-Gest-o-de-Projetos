@@ -1,15 +1,17 @@
 package com.br.project.authentication;
 
+import com.br.project.models.Usuario;
+
 public class TokenDto {
 
 	private String token;
 	private String tipo;
-	private Long idUsuario;
+	private Usuario usuario;
 
-	public TokenDto(String token, String tipo, Long idUsuario) {
+	public TokenDto(String token, String tipo, Usuario usuario) {
 		this.token = token;
 		this.tipo = tipo;
-		this.idUsuario = idUsuario;
+		this.usuario = usuario;
 
 	}
 
@@ -21,12 +23,12 @@ public class TokenDto {
 		return tipo;
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setUsuario(Usuario idUsuario) {
+		this.usuario = idUsuario;
 	}
 
 	public void setToken(String token) {

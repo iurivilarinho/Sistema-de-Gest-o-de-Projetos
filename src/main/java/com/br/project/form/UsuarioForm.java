@@ -1,29 +1,42 @@
 package com.br.project.form;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.br.project.models.Usuario;
+import com.br.project.models.acesso.Perfil;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class UsuarioForm {
 
+	@NotNull(message = "O campo login não pode ser nulo!")
+	@NotBlank(message = "O campo login não pode ser vazio!")
 	private String login;
 
+	@NotNull(message = "O campo login não pode ser nulo!")
+	@NotBlank(message = "O campo login não pode ser vazio!")
 	private String nome;
 
+	@NotNull(message = "O campo login não pode ser nulo!")
+	@NotBlank(message = "O campo login não pode ser vazio!")
 	private String senha;
 
+	@NotNull(message = "O campo login não pode ser nulo!")
+	@NotBlank(message = "O campo login não pode ser vazio!")
 	private String cpf;
 
+	@NotNull(message = "O campo login não pode ser nulo!")
+	@NotBlank(message = "O campo login não pode ser vazio!")
 	private String celular;
 
+	@NotNull(message = "O campo login não pode ser nulo!")
+	@NotBlank(message = "O campo login não pode ser vazio!")
 	private String email;
 
-	private Boolean status;
+	private Set<Perfil> perfis = new HashSet<>();
 
 	private Long idEmpresa;
-
-	private List<Long> perfis = new ArrayList<>();
 
 	public String getLogin() {
 		return login;
@@ -73,14 +86,6 @@ public class UsuarioForm {
 		this.email = email;
 	}
 
-	public Boolean getStatus() {
-		return status;
-	}
-
-	public void setStatus(Boolean status) {
-		this.status = status;
-	}
-
 	public Long getIdEmpresa() {
 		return idEmpresa;
 	}
@@ -89,18 +94,12 @@ public class UsuarioForm {
 		this.idEmpresa = idEmpresa;
 	}
 
-	public List<Long> getPerfis() {
+	public Set<Perfil> getPerfis() {
 		return perfis;
 	}
 
-	public void setPerfis(List<Long> perfis) {
+	public void setPerfis(Set<Perfil> perfis) {
 		this.perfis = perfis;
-	}
-
-	public Usuario formulario() {
-
-		return new Usuario(login, nome, senha, cpf, celular, email, status, idEmpresa);
-
 	}
 
 }

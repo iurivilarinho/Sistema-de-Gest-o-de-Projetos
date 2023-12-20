@@ -1,20 +1,25 @@
 package com.br.project.models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.br.project.models.enums.Sprint;
 import com.br.project.models.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -30,8 +35,9 @@ public class Projeto {
 
 	private String nome;
 
-	private Status situation;
+	private Status status;
 
+	@Column(length = 1000)
 	private String descricao;
 
 	private String justificativa;
@@ -40,51 +46,60 @@ public class Projeto {
 	@JoinColumn(name = "idUsuario")
 	private Usuario usuario;
 
-	private LocalDateTime dataCriacao = LocalDateTime.now();
+	private LocalDate dataCriacao = LocalDate.now();
 
-	private LocalDateTime dataFinalizacao;
+	private LocalDate dataFinalizacao;
 
 	private LocalDate dataPrevista;
 
+	private LocalDate dataLevantamento;
+
 	private Sprint sprint;
 
-	@OneToMany(mappedBy = "projeto")
+	@OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL)
 	private List<Envolvidos> envolvidos = new ArrayList<>();
 
-	@OneToMany(mappedBy = "projeto")
+	@OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Pilar> pilares = new ArrayList<>();
 
-	@OneToMany(mappedBy = "idProjeto", cascade = CascadeType.ALL)
-	private List<Documento> documentos = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinTable(name = "tbProjeto_x_Documento", joinColumns = @JoinColumn(name = "id_Projeto"), inverseJoinColumns = @JoinColumn(name = "id_Documento"))
+	private Set<Documento> documentos = new HashSet<>();
+
+	private Integer pontos;
+
+	@ElementCollection
+	@CollectionTable(name = "tbProjeto_links", joinColumns = @JoinColumn(name = "projeto_id"))
+	@Column(name = "linkDoc")
+	private List<String> linkDocs = new ArrayList<>();
 
 	public Projeto() {
 
 	}
 
-	public Projeto(String nome, Status situation, String descricao, String justificativa, Usuario usuario,
-			LocalDateTime dataCriacao, LocalDateTime dataFinalizacao, LocalDate dataPrevista, Sprint sprint,
-			List<Envolvidos> envolvidos, List<Pilar> pilares, List<Documento> documentos) {
+	public Projeto(String nome, Status status, String descricao, String justificativa, Usuario usuario,
+			List<Envolvidos> envolvidos, List<Pilar> pilares, Set<Documento> documentos, List<String> linkDocs) {
 
 		this.nome = nome;
-		this.situation = situation;
+		this.status = status;
 		this.descricao = descricao;
 		this.justificativa = justificativa;
 		this.usuario = usuario;
-		this.dataCriacao = dataCriacao;
-		this.dataFinalizacao = dataFinalizacao;
-		this.dataPrevista = dataPrevista;
-		this.sprint = sprint;
 		this.envolvidos = envolvidos;
 		this.pilares = pilares;
+		this.linkDocs = linkDocs;
 		this.documentos = documentos;
 	}
 
-	public Projeto(String nome, Status situation, String justificativa, Usuario usuario, String descricao) {
+	public Projeto(String nome, Status status, String justificativa, Usuario usuario, String descricao,
+			Set<Documento> documentos, List<String> linkDocs) {
 		this.nome = nome;
-		this.situation = situation;
+		this.status = status;
 		this.justificativa = justificativa;
 		this.usuario = usuario;
 		this.descricao = descricao;
+		this.linkDocs = linkDocs;
+		this.documentos = documentos;
 	}
 
 	public Long getId() {
@@ -104,11 +119,19 @@ public class Projeto {
 	}
 
 	public Status getSituation() {
-		return situation;
+		return status;
 	}
 
 	public void setSituation(Status situation) {
-		this.situation = situation;
+		this.status = situation;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public String getDescricao() {
@@ -135,19 +158,19 @@ public class Projeto {
 		this.usuario = usuario;
 	}
 
-	public LocalDateTime getDataCriacao() {
+	public LocalDate getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(LocalDateTime dataCriacao) {
+	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public LocalDateTime getDataFinalizacao() {
+	public LocalDate getDataFinalizacao() {
 		return dataFinalizacao;
 	}
 
-	public void setDataFinalizacao(LocalDateTime dataFinalizacao) {
+	public void setDataFinalizacao(LocalDate dataFinalizacao) {
 		this.dataFinalizacao = dataFinalizacao;
 	}
 
@@ -157,6 +180,14 @@ public class Projeto {
 
 	public void setDataPrevista(LocalDate dataPrevista) {
 		this.dataPrevista = dataPrevista;
+	}
+
+	public LocalDate getDataLevantamento() {
+		return dataLevantamento;
+	}
+
+	public void setDataLevantamento(LocalDate dataLevantamento) {
+		this.dataLevantamento = dataLevantamento;
 	}
 
 	public Sprint getSprint() {
@@ -183,12 +214,28 @@ public class Projeto {
 		this.pilares = pilares;
 	}
 
-	public List<Documento> getDocumentos() {
+	public Set<Documento> getDocumentos() {
 		return documentos;
 	}
 
-	public void setDocumentos(List<Documento> documentos) {
+	public void setDocumentos(Set<Documento> documentos) {
 		this.documentos = documentos;
+	}
+
+	public Integer getPontos() {
+		return pontos;
+	}
+
+	public void setPontos(Integer pontos) {
+		this.pontos = pontos;
+	}
+
+	public List<String> getLinkDocs() {
+		return linkDocs;
+	}
+
+	public void setLinkDocs(List<String> linkDocs) {
+		this.linkDocs = linkDocs;
 	}
 
 }

@@ -24,9 +24,12 @@ public class SecurityConfigurations {
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/login").permitAll()
-				.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/usuario/validar/**").permitAll().anyRequest()
+
+		return http.csrf().disable().cors().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeHttpRequests()
+				.requestMatchers(HttpMethod.POST, "/login", "/usuario").permitAll()
+				.requestMatchers(HttpMethod.GET, "/projeto**", "/projeto/**").permitAll()
+				.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll().anyRequest()
 				.authenticated().and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}

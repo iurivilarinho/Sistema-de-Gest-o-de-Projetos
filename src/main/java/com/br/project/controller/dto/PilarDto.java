@@ -2,14 +2,17 @@ package com.br.project.controller.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.br.project.models.TipoPilar;
 import com.br.project.models.enums.SubPilar;
 
 public class PilarDto {
 
 	private String descricao;
 
-	private SubPilar subPilar;
+	private List<SubPilar> subPilar = new ArrayList<>();
 
 	private LocalDateTime dataCadastro = LocalDateTime.now();
 
@@ -17,17 +20,17 @@ public class PilarDto {
 
 	private Integer horas;
 
-	private Long idTipo;
+	private TipoPilar tipo;
 
-	public PilarDto(String descricao, SubPilar subPilar, LocalDateTime dataCadastro, BigDecimal valor, Integer horas,
-			Long idTipo) {
+	public PilarDto(String descricao, List<SubPilar> subPilar, LocalDateTime dataCadastro, BigDecimal valor,
+			Integer horas, TipoPilar tipo) {
 
 		this.descricao = descricao;
 		this.subPilar = subPilar;
 		this.dataCadastro = dataCadastro;
 		this.valor = valor;
 		this.horas = horas;
-		this.idTipo = idTipo;
+		this.tipo = tipo;
 	}
 
 	public String getDescricao() {
@@ -38,11 +41,11 @@ public class PilarDto {
 		this.descricao = descricao;
 	}
 
-	public SubPilar getSubPilar() {
+	public List<SubPilar> getSubPilar() {
 		return subPilar;
 	}
 
-	public void setSubPilar(SubPilar subPilar) {
+	public void setSubPilar(List<SubPilar> subPilar) {
 		this.subPilar = subPilar;
 	}
 
@@ -70,12 +73,12 @@ public class PilarDto {
 		this.horas = horas;
 	}
 
-	public Long getIdTipo() {
-		return idTipo;
+	public TipoPilar getTipo() {
+		return tipo;
 	}
 
-	public void setIdTipo(Long idTipo) {
-		this.idTipo = idTipo;
+	public void setTipo(TipoPilar tipo) {
+		this.tipo = tipo;
 	}
 
 }

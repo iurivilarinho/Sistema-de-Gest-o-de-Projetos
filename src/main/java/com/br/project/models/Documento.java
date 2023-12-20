@@ -1,14 +1,11 @@
 package com.br.project.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,28 +16,26 @@ public class Documento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String nome;
 
+	@Column(nullable = false)
 	private String contentType;
 
 	@Lob
+	@Column(nullable = false)
 	private byte[] documento;
-
-	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "idProjeto")
-	private Projeto idProjeto;
 
 	public Documento() {
 
 	}
 
-	public Documento(String nome, String contentType, byte[] documento, Projeto idProjeto) {
+	public Documento(String nome, String contentType, byte[] documento) {
 
 		this.nome = nome;
 		this.contentType = contentType;
 		this.documento = documento;
-		this.idProjeto = idProjeto;
+
 	}
 
 	public Long getId() {
@@ -73,14 +68,6 @@ public class Documento {
 
 	public void setDocumento(byte[] documento) {
 		this.documento = documento;
-	}
-
-	public Projeto getIdProjeto() {
-		return idProjeto;
-	}
-
-	public void setIdProjeto(Projeto idProjeto) {
-		this.idProjeto = idProjeto;
 	}
 
 }

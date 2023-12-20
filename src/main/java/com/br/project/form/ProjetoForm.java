@@ -1,25 +1,26 @@
 package com.br.project.form;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
+import com.br.project.controller.dto.DocumentoDto;
 import com.br.project.controller.dto.EnvolvidosDto;
 import com.br.project.controller.dto.PilarDto;
-import com.br.project.models.Projeto;
-import com.br.project.models.Usuario;
-import com.br.project.models.enums.Status;
+import com.br.project.models.enums.Sprint;
 
 public class ProjetoForm {
 
 	private String nome;
-	private Status situation;
 	private String descricao;
+	private Sprint sprint;
 	private String justificativa;
+	private LocalDate dataPrevista;
+	private LocalDate dataLevantamento;
+	private List<String> linkDocs = new ArrayList<>();
 	private List<EnvolvidosDto> envolvidos;
 	private List<PilarDto> pilares = new ArrayList<>();
-	private List<MultipartFile> documentos = new ArrayList<>();
+	private List<DocumentoDto> documentos = new ArrayList<>();
 
 	public String getNome() {
 		return nome;
@@ -27,14 +28,6 @@ public class ProjetoForm {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Status getSituation() {
-		return situation;
-	}
-
-	public void setSituation(Status situation) {
-		this.situation = situation;
 	}
 
 	public String getDescricao() {
@@ -69,17 +62,44 @@ public class ProjetoForm {
 		this.pilares = pilares;
 	}
 
-	public List<MultipartFile> getDocumentos() {
+	public List<DocumentoDto> getDocumentos() {
 		return documentos;
 	}
 
-	public void setDocumentos(List<MultipartFile> documentos) {
+	public void setDocumentos(List<DocumentoDto> documentos) {
 		this.documentos = documentos;
 	}
 
-	public Projeto cadastrar(Usuario usuario) {
+	public Sprint getSprint() {
+		return sprint;
+	}
 
-		return new Projeto(nome, situation, justificativa, usuario, descricao);
+	public void setSprint(Sprint sprint) {
+		this.sprint = sprint;
+	}
+
+	public LocalDate getDataPrevista() {
+		return dataPrevista;
+	}
+
+	public void setDataPrevista(LocalDate dataPrevista) {
+		this.dataPrevista = dataPrevista;
+	}
+
+	public LocalDate getDataLevantamento() {
+		return dataLevantamento;
+	}
+
+	public void setDataLevantamento(LocalDate dataLevantamento) {
+		this.dataLevantamento = dataLevantamento;
+	}
+
+	public List<String> getLinkDocs() {
+		return linkDocs;
+	}
+
+	public void setLinkDocs(List<String> linkDocs) {
+		this.linkDocs = linkDocs;
 	}
 
 }

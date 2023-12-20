@@ -24,16 +24,20 @@ public class TipoPilar {
 
 	private Boolean usaDescricao;
 
+	private String tipo;
+
 	public TipoPilar() {
 
 	}
 
-	public TipoPilar(String nome, Boolean usaHora, Boolean usaValor, Boolean usaSubPilar, Boolean usaDescricao) {
+	public TipoPilar(String nome, Boolean usaHora, Boolean usaValor, Boolean usaSubPilar, Boolean usaDescricao,
+			String tipo) {
 		this.nome = nome;
 		this.usaHora = usaHora;
 		this.usaValor = usaValor;
 		this.usaSubPilar = usaSubPilar;
 		this.usaDescricao = usaDescricao;
+		this.tipo = tipo.toUpperCase();
 	}
 
 	public Long getId() {
@@ -82,6 +86,14 @@ public class TipoPilar {
 
 	public void setUsaDescricao(Boolean usaDescricao) {
 		this.usaDescricao = usaDescricao;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo.toUpperCase();
 	}
 
 }
